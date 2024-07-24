@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block head %}
+<title>Cấp quyền quản lý </title>
+{% endblock %} {% block body %}
+<br/>
+
+<!-- query panel -->
+<div class=" panel panel-primary">
+    <div class="panel-heading">
+        Quản lý server
+    </div>
+    <div class="container-fuid panel-body form-inline">
+        <div class="row" style="padding-left:10px">
+            <div class="input-group col-md-1">
+                <button id="btn_shutdown" class="btn btn-primary btn-default">
+                    <i class="fas fa-power-off"></i> Shutdown</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class=" panel panel-primary">
+    <div class="panel-heading">
+        Download
+    </div>
+    <div class="container-fuid panel-body form-inline">
+        <div class="row" style="padding-left:10px">
+            <div class="col-md-12">
+                <a href="/download/media.tar.gz">Download toàn bộ ảnh</a>
+            </div>
+            <div class="col-md-12">
+                <a href="/download/facemon_database.tar.gz">Download database</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %} {% block scripts %}
+<script>
+
+$(document).ready(function () 
+{
+    
+});
+
+
+
+$("#btn_shutdown").click(function() {
+    //chmod 777 /sbin/shutdown
+    request_data = {
+                "command" : "shutdown -h now",
+                "token": Cookies.get("token"),                            
+            }
+
+    host_request = gethost() + '/api/os/sendcommand'
+    ajaxRequest("POST", host_request, request_data, function(res){
+        ShowToast(res.Success)
+    }, genericFailCB)
+})
+
+</script> {% endblock %}

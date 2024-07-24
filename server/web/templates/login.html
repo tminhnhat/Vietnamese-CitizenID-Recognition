@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Đăng nhập</title>
+
+<meta property="og:locale" content="en_US" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Face Hub - phần mềm nhận diện khuôn mặt" />
+<meta property="og:description" content="Nhận diện khuôn mặt online" />
+<meta property="og:url" content="https://viscom.ddns.net" />
+<meta property="og:site_name" content="Face Hub" />
+<meta property="og:image" content="/static/img/favicon.ico" />
+<meta property="og:image:width" content="256" />
+<meta property="og:image:height" content="256" />
+<meta property="og:image:alt" content="Face Hub" />
+
+{% endblock %}
+
+{% block body %}
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4">
+                <div class="login-panel panel panel-green">
+                    <div class="panel-heading">
+                        <h3 class="panel-title lead">Đăng nhập tài khoản</h3>   
+                    </div>
+                    <div class="panel-body">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="far fa-envelope"></i></span>
+                            <input class="form-control" placeholder="email" id="txt_email" type="text" autofocus>
+                        </div>
+                        </br>
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                            <input class="form-control" placeholder="Mật khẩu" id="txt_password" type="password" value="">
+                        </div>
+                        </br>
+                        <!-- Change this to a button or input when using this as a form -->
+                        <button type="submit" id ="login" class="btn btn-lg btn-success btn-block"><span class="glyphicon glyphicon-off"></span> Đăng nhập</button>
+                        </br>
+                    </div>
+                    <div class="panel-footer">
+                        <a  class="pull-left" data-toggle="modal" href="#reset_password_modal">Quên mật khẩu</a>
+                        <a class="pull-right" href="/register">Đăng ký</a>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+  <!-- Modal Forget password  -->
+
+  <div class="modal fade " id="reset_password_modal" role="dialog">
+        <div class="modal-dialog ">
+
+                <!-- Modal content-->
+                <div class="modal-content panel-primary">
+                <div class="modal-header panel-heading">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Thiết lập lại mật khẩu</h4>
+                </div>
+                <div class="modal-body panel-body">
+                    <label>Chúng tôi sẽ gửi link reset password đến email của bạn</label>
+                    <div class="row form-group">
+                        
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="far fa-envelope"></i></span>
+                                <input class="form-control" placeholder="email" id="txt_email2" type="text" autofocus>
+                            </div>
+                        </div>
+                    </div>     
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-12 center-block form-group">
+                                <button id="btn_resetPassword" class="btn btn-primary center-block">Gửi mail reset password</button>
+                            </div>
+                        </div>
+                        
+                    </div>        
+                </div> <!-- end modal body-->        
+                </div>
+            </div>
+    </div>
+    
+    
+        
+</div>
+{% endblock %}
+
+{% block scripts %}
+
+
+<script>
+$(document).ready(function() {
+    function Login()
+    {
+       
+        if($("#txt_email").val() == "" ||
+            $("#txt_password").val() == "")
+            {
+                showError("Thiếu email hoặc password")
+                return
+            }
+        request_data = {
+                            "email": $("#txt_email").val(),
+                            "password": $("#txt_password").val()
+                        }                
+        host_request = gethost() + '/api/user/login'
+        ajaxRequest("POST", host_request ,request_data, onLoginSuccess, onLoginFailed)
+    }
+
+    function onLoginSuccess(res)
+    {        
+        Cookies.set('email', res["email"], { expires: 365 });
+        Cookies.set('token',res["token"], { expires: 365 });
+        window.location.href = "/idcard";
+    }
+    
+    function onLoginFailed(res)
+    {
+        showError(res["responseJSON"]["Error"])
+    }
+
+    $("#login").click(function() {
+        Login()
+    });
+
+    $(document).keydown(function(e)
+    {
+        if(e.which == 13)
+        {
+            Login()
+        }        
+    })
+
+    $("#btn_resetPassword").click(function() {
+        if($("#txt_email2").val() == "")
+        {
+            showError("Chưa nhập email")
+            return
+        }
+        request_data = {
+                            "email": $("#txt_email2").val()
+                        }                
+        host_request = gethost() + '/api/user/SendEmailResetPassword'
+        ajaxRequest("POST", host_request ,request_data, onSendSuccess, onLoginFailed)
+    });
+
+    function onSendSuccess(res)
+    {
+        showNotice(res["Success"])
+        $("#reset_password_modal").modal("hide")        
+    }
+});
+
+</script>
+
+{% endblock %}

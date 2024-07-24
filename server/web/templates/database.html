@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block head %}
+<title>Cập nhật database</title>
+{% endblock %}
+{% block body %}
+<br/>
+
+
+<div class="row panel panel-primary">
+    <div class="panel-heading">
+        Cập nhật database
+        <div id="loading_icon" class="spinner-border" role="status" style="display: none;"></div>
+    </div>
+        <div class="container-fuid panel-body form-inline">
+            <div class="row" style="padding-left:10px">
+                <input type="checkbox" id="chk_deletePhase" class="custom-checkbox">
+                <span> Delete in amount phase Phước Trung</span>                
+            </div>
+            <div class="row" style="padding-left:10px">
+                <input type="checkbox" id="chk_deleteOldField" class="custom-checkbox">
+                <span> Delete old field</span>                
+            </div> 
+            <div class="row">
+                <div class="col-md-12">
+                    <button id ="btn_update" class="btn btn-primary btn-default">
+                        <span class="fa fa-save"></span> Cập nhật</button>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+$(document).ready(function() {
+
+    
+});
+
+$("#btn_update").click(function(){
+    request_data = {            
+        "deletePhase" : document.getElementById('chk_deletePhase').checked ? "True" : "False",
+        "deleteOldField" : document.getElementById('chk_deleteOldField').checked ? "True" : "False",
+        
+        "token" : Cookies.get("token")
+    }
+    host_request = gethost() + '/api/database/update'
+    ajaxRequest("POST", host_request, request_data, onUpdateSuccess, onUpdateFailed)  
+    document.getElementById("loading_icon").style.display = "inline-block";
+});
+
+function onUpdateSuccess(res)
+{        
+    document.getElementById("loading_icon").style.display = "none";
+    showNotice(res.Success)
+}
+
+function onUpdateFailed(res)
+{        
+    document.getElementById("loading_icon").style.display = "none";
+    showError(GetErrorMessage(res))
+}
+
+</script>
+
+{% endblock %}
