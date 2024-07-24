@@ -68,17 +68,17 @@ def ExtractIDCard(request):
 
         info = idcard_extractor.GetInformationAndSave(extracted_result, info['ID_number'], info['ID_number_box'])
 
-        history = History()
-        history.imagePath        = os.path.join(dirName, _randFilename)
-        history.idNumber         = info['ID_number']
-        history.fullName         = info['Name']
-        history.dateOfBirth      = info['Date_of_birth']
-        history.gender           = info['Gender']
-        history.nationality      = info['Nationality']
-        history.placeOfOrigin    = info['Place_of_origin']
-        history.placeOfResidence = info['Place_of_residence']
-        history.timeCreate       = utcnow()
-        history.save()
+        # history = History()
+        # history.imagePath        = os.path.join(dirName, _randFilename)
+        # history.idNumber         = info['ID_number']
+        # history.fullName         = info['Name']
+        # history.dateOfBirth      = info['Date_of_birth']
+        # history.gender           = info['Gender']
+        # history.nationality      = info['Nationality']
+        # history.placeOfOrigin    = info['Place_of_origin']
+        # history.placeOfResidence = info['Place_of_residence']
+        # history.timeCreate       = utcnow()
+        # history.save()
 
 
         
@@ -95,7 +95,7 @@ def ExtractIDCard(request):
                     text = re.split(r'\\|/', filePathAbs)[-1] + '\t' + texts[i]
                     f.write(text +'\n')
 
-                    AddAnnotation(filePath, texts[i])
+                    #AddAnnotation(filePath, texts[i])
                 else:
                     continue
             f.close()

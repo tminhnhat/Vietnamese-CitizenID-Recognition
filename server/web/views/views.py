@@ -72,15 +72,8 @@ def logout(request):
     return res
 
 def index(request):
-    # _token = request.COOKIES.get('token')
-    # if(_token == None or _token == ""):
-    #     args = {'authorized': False}
-    #     return render(request, 'index.html', args)        
-    # else:
-        if(IsValidToken(request)):
-            return redirect("/dashboard")
-        else:
-            return redirect("/login")        
+    return redirect("/idcard")
+      
         
 
 def register(request):
@@ -89,7 +82,7 @@ def register(request):
         args = {'authorized': False}
         return render(request, 'register.html', args)
     else:
-        return redirect("/dashboard")
+        return redirect("/idcard")
 
 def profile(request):
     permissions = ["Root", "Admin", "Gate"]
@@ -132,7 +125,7 @@ def systeminfo(request):
 
 
 def idcard(request):
-    permissions = ["Root", "Admin"]
+    permissions = ["all"]
     return CheckToken(request, 'idcard.html', permissions)
     
 def Redirect(request):
