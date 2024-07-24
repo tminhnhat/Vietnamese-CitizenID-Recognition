@@ -1,0 +1,30 @@
+{
+    "version" : "0.0.1",
+    "secret_key" : "v9awbiojo81y1430nym17npwlpnno9ijcr2mq",
+    "mongodb" : {
+        "release" : {
+            "host": "127.0.0.1",
+            "user" : "vohungvi",
+            "password": "viscomsolution",
+            "db_name" : "idcard"
+        },
+        "debug" : {
+            "host": "127.0.0.1",
+            "user" : "vohungvi",
+            "password": "viscomsolution",
+            "db_name" : "idcard"            
+        }
+    },
+    "threshold" : 67,
+    "threshold_add_template" : 90,
+    "session_time" : 600,
+    "email" : {
+        "host": "",
+        "port": "",
+        "user": "",
+        "password" : "",
+        "from_email" : ""
+    },
+    "face_min_size" : 20,
+    "os_password" : "viscom"
+}
