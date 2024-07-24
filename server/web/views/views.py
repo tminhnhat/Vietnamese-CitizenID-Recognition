@@ -72,11 +72,11 @@ def logout(request):
     return res
 
 def index(request):
-    _token = request.COOKIES.get('token')
-    if(_token == None or _token == ""):
-        args = {'authorized': False}
-        return render(request, 'index.html', args)        
-    else:
+    # _token = request.COOKIES.get('token')
+    # if(_token == None or _token == ""):
+    #     args = {'authorized': False}
+    #     return render(request, 'index.html', args)        
+    # else:
         if(IsValidToken(request)):
             return redirect("/dashboard")
         else:
