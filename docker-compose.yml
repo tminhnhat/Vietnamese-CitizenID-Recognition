@@ -1,5 +1,7 @@
 version: "3.8"
-
+networks:
+  ocrcccd:
+    driver: bridge
 services:
   ocrcccd:
     build:
@@ -8,3 +10,5 @@ services:
     ports:
        - ${PORT:-80}:${PORT:-5555}
     restart: always
+    networks:
+      - ocrcccd
