@@ -1,2 +1,0 @@
-cd server
-start.bat
