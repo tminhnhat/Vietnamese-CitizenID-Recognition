@@ -6,7 +6,7 @@ services:
   ocrcccd:
     build: .
     volumes:
-       - ./ocrcccd:/usr/src/app/
+       - ./ketqua:/usr/src/app/media/idcard
     ports:
        - 80:5555
     restart: always
