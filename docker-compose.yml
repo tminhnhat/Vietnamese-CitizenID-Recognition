@@ -4,11 +4,11 @@ networks:
     driver: bridge
 services:
   ocrcccd:
-    build:
+    build: .
     volumes:
        - ./ocrcccd:/usr/src/app/
     ports:
-       - ${PORT:-80}:${PORT:-5555}
+       - 80:5555
     restart: always
     networks:
       - ocrcccd
